@@ -1,5 +1,6 @@
 import 'dart:convert';
-// Packages
+
+//Packages
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -15,7 +16,7 @@ class SplashPage extends StatefulWidget {
   final VoidCallback onInitializationComplete;
 
   const SplashPage({
-    required Key key,
+    Key? key,
     required this.onInitializationComplete,
   }) : super(key: key);
 
@@ -29,14 +30,14 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2)).then(
+    Future.delayed(Duration(seconds: 1)).then(
       (_) => _setup(context).then(
         (_) => widget.onInitializationComplete(),
       ),
     );
   }
 
-  Future<void> _setup(BuildContext context) async {
+  Future<void> _setup(BuildContext _context) async {
     final getIt = GetIt.instance;
 
     final configFile = await rootBundle.loadString('assets/config/main.json');
@@ -62,19 +63,20 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flicked',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: Center(
-          child: Container(
-            height: 200,
-            width: 200,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.contain,
-                image: AssetImage('assets/images/logo.png'),
-              ),
+      title: 'Flickd',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: Center(
+        child: Container(
+          height: 200,
+          width: 200,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.contain,
+              image: AssetImage('assets/images/logo.png'),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

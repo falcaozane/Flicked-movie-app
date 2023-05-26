@@ -1,16 +1,17 @@
-import './pages/splash_page.dart';
-import './pages/main_page.dart';
-
+//Packages
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+//Pages
+import './pages/splash_page.dart';
+import './pages/main_page.dart';
+
 void main() {
-  //runApp(const MyApp());
   runApp(
     SplashPage(
       key: UniqueKey(),
       onInitializationComplete: () => runApp(
-         const ProviderScope(
+        ProviderScope(
           child: MyApp(),
         ),
       ),
@@ -19,8 +20,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -36,4 +35,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

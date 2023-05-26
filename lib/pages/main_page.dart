@@ -1,15 +1,17 @@
 import 'dart:ui';
 
+//Packages
+import 'package:flicked_app/models/main_page_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flicked_app/models/main_page_data.dart';
-
-//Model
-import '../models/search_category.dart';
-import '../models/movie.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 //Widgets
 import '../widgets/movie_title.dart';
+
+//Models
+import '../models/search_category.dart';
+import '../models/movie.dart';
 
 //Controllers
 import '../controllers/main_page_data_controller.dart';
@@ -33,9 +35,7 @@ class MainPage extends ConsumerWidget {
   late MainPageDataController _mainPageDataController;
   late MainPageData _mainPageData;
 
-  late TextEditingController? _searchTextFieldController;
-
-  //MainPage({super.key});
+  TextEditingController? _searchTextFieldController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,33 +64,47 @@ class MainPage extends ConsumerWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            _backgroundWidget(), 
-            _foregroundWigets(),
-            ],
+            _backgroundWidget(),
+            _foregroundWidgets(),
+          ],
         ),
       ),
     );
   }
 
   Widget _backgroundWidget() {
+    print('_selectedMoviePosterURL: $_selectedMoviePosterURL'); // Add this line
     if (_selectedMoviePosterURL != null) {
-      return Container(
-        height: _deviceHeight,
-        width: _deviceWidth,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          image: DecorationImage(
-            image: NetworkImage(_selectedMoviePosterURL),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.2),
+      return CachedNetworkImage(
+        imageUrl: _selectedMoviePosterURL,
+        imageBuilder: (context, imageProvider) => Container(
+          height: _deviceHeight,
+          width: _deviceWidth,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
             ),
           ),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.2),
+              ),
+            ),
+          ),
+        ),
+        placeholder: (context, url) => Container(
+          height: _deviceHeight,
+          width: _deviceWidth,
+          color: Colors.grey[300],
+        ),
+        errorWidget: (context, url, error) => Container(
+          height: _deviceHeight,
+          width: _deviceWidth,
+          color: Colors.black,
         ),
       );
     } else {
@@ -102,7 +116,7 @@ class MainPage extends ConsumerWidget {
     }
   }
 
-  Widget _foregroundWigets() {
+  Widget _foregroundWidgets() {
     return Container(
       padding: EdgeInsets.fromLTRB(0, _deviceHeight! * 0.02, 0, 0),
       width: _deviceWidth! * 0.90,
@@ -115,7 +129,7 @@ class MainPage extends ConsumerWidget {
           Container(
             height: _deviceHeight! * 0.83,
             padding: EdgeInsets.symmetric(vertical: _deviceHeight! * 0.01),
-            child: _movieListViewWidget(),
+            child: _moviesListViewWidget(),
           )
         ],
       ),
@@ -148,19 +162,17 @@ class MainPage extends ConsumerWidget {
       height: _deviceHeight! * 0.05,
       child: TextField(
         controller: _searchTextFieldController,
-        onSubmitted: (_input) => {
-          _mainPageDataController.updateTextSearch(_input),
-        },
+        onSubmitted: (_input) =>
+            _mainPageDataController.updateTextSearch(_input),
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
-          focusedBorder: _border,
-          border: _border,
-          prefixIcon: Icon(Icons.search, color: Colors.white24),
-          hintStyle: TextStyle(color: Colors.white54),
-          filled: false,
-          fillColor: Colors.white24,
-          hintText: 'Search....'
-        ),
+            focusedBorder: _border,
+            border: _border,
+            prefixIcon: Icon(Icons.search, color: Colors.white24),
+            hintStyle: TextStyle(color: Colors.white54),
+            filled: false,
+            fillColor: Colors.white24,
+            hintText: 'Search....'),
       ),
     );
   }
@@ -206,7 +218,7 @@ class MainPage extends ConsumerWidget {
     );
   }
 
-  Widget _movieListViewWidget() {
+  Widget _moviesListViewWidget() {
     final List<Movie> _movies = _mainPageData.movies!;
 
     if (_movies.length != 0) {
