@@ -30,7 +30,7 @@ class MainPage extends ConsumerWidget {
   double? _deviceHeight;
   double? _deviceWidth;
 
-  late var _selectedMoviePosterURL;
+  var _selectedMoviePosterURL;
 
   late MainPageDataController _mainPageDataController;
   late MainPageData _mainPageData;
@@ -74,7 +74,10 @@ class MainPage extends ConsumerWidget {
 
   Widget _backgroundWidget() {
     print('_selectedMoviePosterURL: $_selectedMoviePosterURL'); // Add this line
+    //_selectedMoviePosterURL = "vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
     if (_selectedMoviePosterURL != null) {
+      print(
+          '_selectedMoviePosterURL: $_selectedMoviePosterURL'); // Add this line
       return CachedNetworkImage(
         imageUrl: _selectedMoviePosterURL,
         imageBuilder: (context, imageProvider) => Container(
@@ -108,6 +111,8 @@ class MainPage extends ConsumerWidget {
         ),
       );
     } else {
+      print(
+          '_selectedMoviePosterURL: $_selectedMoviePosterURL'); // Add this line
       return Container(
         height: _deviceHeight,
         width: _deviceWidth,
