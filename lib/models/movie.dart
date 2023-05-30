@@ -15,17 +15,14 @@ class Movie {
   final String? releaseDate;
 
   Movie(
-      {
-      this.name,
+      {this.name,
       this.language,
       this.isAdult,
       this.description,
       this.posterPath,
       this.backdropPath,
       this.rating,
-      this.releaseDate
-      }
-    );
+      this.releaseDate});
 
   factory Movie.fromJson(Map<String, dynamic> _json) {
     return Movie(
