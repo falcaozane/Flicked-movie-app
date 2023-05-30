@@ -73,46 +73,27 @@ class MainPage extends ConsumerWidget {
   }
 
   Widget _backgroundWidget() {
-    print('_selectedMoviePosterURL: $_selectedMoviePosterURL'); // Add this line
-    //_selectedMoviePosterURL = "vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
     if (_selectedMoviePosterURL != null) {
-      print(
-          '_selectedMoviePosterURL: $_selectedMoviePosterURL'); // Add this line
-      return CachedNetworkImage(
-        imageUrl: _selectedMoviePosterURL,
-        imageBuilder: (context, imageProvider) => Container(
-          height: _deviceHeight,
-          width: _deviceWidth,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.2),
-              ),
-            ),
+      return Container(
+        height: _deviceHeight,
+        width: _deviceWidth,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          image: DecorationImage(
+            image: NetworkImage(_selectedMoviePosterURL),
+            fit: BoxFit.cover,
           ),
         ),
-        placeholder: (context, url) => Container(
-          height: _deviceHeight,
-          width: _deviceWidth,
-          color: Colors.grey[300],
-        ),
-        errorWidget: (context, url, error) => Container(
-          height: _deviceHeight,
-          width: _deviceWidth,
-          color: Colors.black,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.2),
+            ),
+          ),
         ),
       );
     } else {
-      print(
-          '_selectedMoviePosterURL: $_selectedMoviePosterURL'); // Add this line
       return Container(
         height: _deviceHeight,
         width: _deviceWidth,
