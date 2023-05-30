@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flicked_app/models/main_page_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 //Widgets
 import '../widgets/movie_title.dart';
